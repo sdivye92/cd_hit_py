@@ -3,13 +3,12 @@ from cd_hit.error import *
 from cd_hit.io import read_fasta
     
 class CD_HIT:
-    def __init__(self, threshold= 0.9, global_seq_identity= True, band_width= 20, max_memory= 400, word_length= 5,
+    def __init__(self, global_seq_identity= True, band_width= 20, max_memory= 400, word_length= 5,
                  throw_away_sequences_length= 10, tol= 2, desc_length= 20, length_difference_cutoff= 0.0,
                  amino_acid_length_difference_cutoff= 999999, long_seq_alignment_coverage= 0.0,
                  long_seq_alignment_coverage_control= 99999999, short_seq_alignment_coverage= 0.0,
                  short_seq_alignment_coverage_control= 99999999, store_in_RAM= True, print_alignment_overlap= False, nthreads= 1, fast_mode= True):
 
-        self.threshold= threshold
         self.global_seq_identity= 1 if global_seq_identity else 0
         self.band_width= band_width
         self.max_memory= max_memory
