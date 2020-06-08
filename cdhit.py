@@ -1,4 +1,5 @@
 import os
+from platform import system
 from cd_hit.error import *
 from cd_hit.io import read_fasta
     
@@ -63,13 +64,23 @@ class CD_HIT:
                     return path
             return path
 
+    def __get_os_name(self):
+        os_name = system()
+        if os_name == 'Windows':
+            raise OSError("cd-hit binaries are not available for {0}".format(os_name))
+        elif os_name == 'Linux':
+            return 'linux'
+        elif os_name == 'Darwin':
+            return 'osx'
+        
     def __get_cdhit_exec(self):
         cdhit_exec = self.__check_exec_installation(['cd-hit', 'cdhit'])
         if cdhit_exec:
             return cdhit_exec
         else:
             current_path = os.path.dirname(__file__)
-            bin_path = current_path+'/bin'
+            os_name = self.__get_os_name()
+            bin_path = current_path+'/bin/'+os_name+'/bin'
             return bin_path+"/cd-hit"
         
     def __print_to_file(self, seq_lst, header_lst, inp):
