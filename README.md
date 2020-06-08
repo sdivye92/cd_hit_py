@@ -4,4 +4,4 @@ Python interface to <a href="http://weizhong-lab.ucsd.edu/cdhit-web-server/cgi-b
 
 See [example](https://github.com/sdivye92/cd_hit_py/tree/master/example) for basic commands.
 
-The cd-hit executable files are taken from [anaconda](https://anaconda.org/bioconda/cd-hit/files) for OSX-64 only.
+The cd-hit executable files are taken from [anaconda](https://anaconda.org/bioconda/cd-hit/files). Therefore, these will execute on linux and OSX distributions only.
