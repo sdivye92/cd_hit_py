@@ -1,1 +1,1 @@
-from .fasta import read_fasta
+from .fasta import read_fasta, write_fasta

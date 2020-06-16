@@ -1,4 +1,5 @@
 from cd_hit.error import *
+from warnings import warn
 
 def read_fasta(file_path):
     import os
@@ -14,3 +15,18 @@ def read_fasta(file_path):
         return pd.DataFrame(seq_lst, columns=["Header", "Sequence"])
     except:
         raise FileParsingError("Error occured in parsing file {0}".format(file_path))
+
+def write_fasta(file_path, seq_lst=None, header_lst=None):
+    if not (isinstance(seq_lst, list) and isinstance(header_lst, list)):
+        raise ValueError("Sequence and header must be of type list")
+
+    if len(seq_lst) != len(header_lst):
+        raise LengthMissmatchError("Sequence and header lists must have same length")
+
+    with open(file_path, 'w') as f:
+        for hdr, seq in zip(header_lst, seq_lst):
+            hdr_seq = ">{0}\n{1}".format(hdr, seq)
+            print(hdr_seq, file=f)
+
+        f.flush()
+     
