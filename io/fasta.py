@@ -1,6 +1,11 @@
 from cd_hit.error import *
 from warnings import warn
 
+def __split_str(seq, sep='\n'):
+    seq = seq.replace("\x0c",sep).strip(sep)
+    splt = seq.split(sep, maxsplit=1)
+    return splt[0], splt[1].replace(sep, "")
+
 def read_fasta(file_path):
     import os
     import pandas as pd
@@ -11,7 +16,7 @@ def read_fasta(file_path):
     try:
         with open(file_path) as f:
             content = f.read()
-            seq_lst = [seq.strip('\n').split('\n') for seq in content.split('>') if seq.strip('\n')]
+            seq_lst = [__split_str(seq, '\n') for seq in content.split('>') if seq.strip('\n')]
         return pd.DataFrame(seq_lst, columns=["Header", "Sequence"])
     except:
         raise FileParsingError("Error occured in parsing file {0}".format(file_path))

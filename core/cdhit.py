@@ -41,16 +41,6 @@ class CD_HIT(BASE):
         if returncode != 0:
             raise CdhitCommandError("Error while execution of cd-hit")
         
-    def __get_cdhit_exec(self):
-        cdhit_exec = self.check_exec_installation(['cd-hit', 'cdhit'])
-        if cdhit_exec:
-            return cdhit_exec
-        else:
-            current_path = os.path.dirname(__file__)
-            os_name = self.__get_os_name()
-            bin_path = current_path+'/bin/'+os_name+'/bin'
-            return bin_path+"/cd-hit"
-        
     def __print_to_file(self, seq_lst, header_lst, inp):
         if not (isinstance(seq_lst, list) and isinstance(header_lst, list)):
             raise ValueError("Sequence and header must be of type list")
@@ -65,13 +55,14 @@ class CD_HIT(BASE):
         inp.flush()
         
     def from_file(self, inp_file=None, out_file=None, threshold=0.9):
-        cdhit_exec = self.__get_cdhit_exec()
+        cdhit_exec = self.get_cdhit_exec()
         #if cdhit_exec:
+        print(cdhit_exec)
         self.__call_cdhit(cdhit_exec, inp_file, out_file, threshold)
         
 
     def from_list(self, seq_lst=None, header_lst=None, threshold=0.9, output_fasta_file=None):
-        cdhit_exec = self.__get_cdhit_exec()
+        cdhit_exec = self.get_cdhit_exec()
 
         if seq_lst is None or header_lst is None:
             raise MissingArgumentError("Both sequence list and header list must be provided")
