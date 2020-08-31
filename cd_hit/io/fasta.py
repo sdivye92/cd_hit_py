@@ -1,4 +1,5 @@
-from cd_hit.error import *
+from ..error import FileParsingError, InvalidFileTypeError, \
+        LengthMissmatchError
 from warnings import warn
 
 def __split_str(seq, sep='\n'):

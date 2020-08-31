@@ -9,25 +9,15 @@ class CD_HIT(BASE):
                  throw_away_sequences_length= 10, tol= 2, desc_length= 20, length_difference_cutoff= 0.0,
                  amino_acid_length_difference_cutoff= 999999, long_seq_alignment_coverage= 0.0,
                  long_seq_alignment_coverage_control= 99999999, short_seq_alignment_coverage= 0.0,
-                 short_seq_alignment_coverage_control= 99999999, store_in_RAM= True, print_alignment_overlap= False, nthreads= 1, fast_mode= True):
+                 short_seq_alignment_coverage_control= 99999999, store_in_RAM= True,
+                 print_alignment_overlap= False, nthreads= 1, fast_mode= True):
 
-        self.global_seq_identity= 1 if global_seq_identity else 0
-        self.band_width= band_width
-        self.max_memory= max_memory
-        self.word_length= word_length
-        self.throw_away_sequences_length= throw_away_sequences_length
-        self.tol= tol
-        self.desc_length= desc_length
-        self.length_difference_cutoff= length_difference_cutoff
-        self.amino_acid_length_difference_cutoff= amino_acid_length_difference_cutoff
-        self.long_seq_alignment_coverage= long_seq_alignment_coverage
-        self.long_seq_alignment_coverage_control= long_seq_alignment_coverage_control
-        self.short_seq_alignment_coverage= short_seq_alignment_coverage
-        self.short_seq_alignment_coverage_control= short_seq_alignment_coverage_control
-        self.store_in_RAM= 1 if store_in_RAM else 0
-        self.print_alignment_overlap= 1 if print_alignment_overlap else 0
-        self.nthreads= nthreads
-        self.fast_mode= fast_mode
+        super().__init__(global_seq_identity= True, band_width= 20, max_memory= 400, word_length= 5,
+                 throw_away_sequences_length= 10, tol= 2, desc_length= 20, length_difference_cutoff= 0.0,
+                 amino_acid_length_difference_cutoff= 999999, long_seq_alignment_coverage= 0.0,
+                 long_seq_alignment_coverage_control= 99999999, short_seq_alignment_coverage= 0.0,
+                 short_seq_alignment_coverage_control= 99999999, store_in_RAM= True,
+                 print_alignment_overlap= False, nthreads= 1, fast_mode= True)
 
     def __get_command(self, cdhit_exe, fin, fout, threshold):
         return "{0} -i {1} -o {2} -c {3} -G {4} -b {5} -M {6} -n {7} -l {8} -t {9} -d {10} -s {11} -S {12} -aL {13} -AL {14} -aS {15} -AS {16} -B {17} -p {18} -T {19} -g {20}".format(cdhit_exe, fin, fout,
