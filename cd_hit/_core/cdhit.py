@@ -5,6 +5,100 @@ from .._io import read_fasta
 from .base import BASE
     
 class CD_HIT(BASE):
+    """Python wrapper for CD-HIT binary executable from anaconda
+
+    Parameters
+    ----------
+    global_seq_identity : bool, default=True
+        -G: Use global sequence identity.
+            If set to False, then use local sequence identity, calculated as :
+            number of identical amino acids in alignment
+            divided by the length of the alignment.
+            NOTE!!! don't use global_seq_identity=False unless you use alignment
+            coverage controls see options -aL, -AL, -aS, -AS
+    
+    band_width : int, default=20
+        -b: Band_width of alignment.
+    
+    max_memory : int, default=400
+        -M: Max available memory (Mbyte).
+
+    word_length : int, default=5
+        -n: word_length
+            Choose word length as:
+            word_length=5 for thresholds 0.7 ~ 1.0
+            word_length=4 for thresholds 0.6 ~ 0.7
+            word_length=3 for thresholds 0.5 ~ 0.6
+            word_length=2 for thresholds 0.4 ~ 0.5
+                 
+    throw_away_sequences_length : int, default=10
+        -l: Length of throw_away_sequences.
+    
+    tol : int, default=2
+        -t: Tolerance for redundance.
+    
+    desc_length : int, default=20
+        -d: Length of description in .clstr file.
+            If set to 0, it takes the fasta defline and stops at first space.
+    
+    length_difference_cutoff : float, default=0.0
+        -s: Length difference cutoff.
+            If set to 0.9, the shorter sequences need to be at least 90%
+            length of the representative of the cluster.
+    
+    amino_acid_length_difference_cutoff : int, default=999999
+        -S: Length difference cutoff in amino acid.
+            If set to 60, the length difference between the shorter sequences
+            and the representative of the cluster can not be bigger than 60.
+    
+    long_seq_alignment_coverage : float, default=0.0
+        -aL: Alignment coverage for the longer sequence.
+             If set to 0.9, the alignment must covers 90% of the sequence.
+    
+    long_seq_alignment_coverage_control : int, default=99999999
+        -AL: Alignment coverage control for the longer sequence.
+             If set to 60, and the length of the sequence is 400,
+             then the alignment must be >= 340 (400-60) residues.
+    
+    short_seq_alignment_coverage : float, default=0.0
+        -aS: Alignment coverage for the shorter sequence.
+             If set to 0.9, the alignment must covers 90% of the sequence.
+    
+    short_seq_alignment_coverage_control : int, default=99999999
+        -AS: Alignment coverage control for the shorter sequence.
+             If set to 60, and the length of the sequence is 400,
+             then the alignment must be >= 340 (400-60) residues.
+    
+    store_in_RAM : bool, default=True
+        -B: Whether to store sequences in RAM
+            by default, sequences are stored in RAM.
+            If set to False, sequence are stored on hard drive
+            it is recommended to use store_in_RAM=False for huge databases.
+    
+    print_alignment_overlap : bool, default=False
+        -p: Print alignment overlap in .clstr file if set to True.
+    
+    nthreads : int, default=1
+        -T: Number of threads
+            If nthreads=0, all CPUs will be used.
+    
+    fast_mode : bool, default=True
+        -g: Whether to use fast mode.
+            By cd-hit’s default algorithm, a sequence is clustered to the first
+            cluster that meet the threshold (fast mode). If set to False, the program
+            will cluster it into the most similar cluster that meet the threshold
+            (accurate but slow mode).
+    
+    See also
+    --------
+    CD_HIT_2D
+    
+    Notes
+    -----
+    For more details, see CD-HIT user guide, available at
+    http://www.bioinformatics.org/cd-hit/cd-hit-user-guide.pdf
+
+    """
     def __init__(self, global_seq_identity= True, band_width= 20, max_memory= 400, word_length= 5,
                  throw_away_sequences_length= 10, tol= 2, desc_length= 20, length_difference_cutoff= 0.0,
                  amino_acid_length_difference_cutoff= 999999, long_seq_alignment_coverage= 0.0,
@@ -32,6 +126,23 @@ class CD_HIT(BASE):
             raise CdhitCommandError("Error while execution of cd-hit")
         
     def from_file(self, inp_file=None, out_file=None, threshold=0.9):
+        """Runs CD-HIT using fasta file with user defined similarity threshold.
+        Output is also in form of fasta file.
+           
+        Parameters
+        ----------
+        inp_file : (-i) input filename in fasta format.
+        out_file : (-o) path to fasta file of representative sequences. 
+        threshold : float, default=0.9
+            -c: sequence identity threshold.
+                This is the default cd-hit's "global sequence identity"
+                calculated as:
+                number of identical amino acids in alignment
+                divided by the full length of the shorter sequence
+        Returns
+        -------
+        None
+        """
         cdhit_exec = self._get_cdhit_exec(['cd-hit', 'cdhit'])
         #if cdhit_exec:
         print(cdhit_exec)
@@ -39,6 +150,29 @@ class CD_HIT(BASE):
         
 
     def from_list(self, seq_lst=None, header_lst=None, threshold=0.9, output_fasta_file=None):
+        """Runs CD-HIT using sequence and header lists
+        with user defined similarity threshold.
+        Output is in form of python list object
+        and can also export out as fasta file.
+           
+        Parameters
+        ----------
+        seq_file : List of sequences.
+        header_file : List of headers for sequences.
+        threshold : float, default=0.9
+            -c: sequence identity threshold.
+                This is the default cd-hit's "global sequence identity"
+                calculated as:
+                number of identical amino acids in alignment
+                divided by the full length of the shorter sequence
+        output_fasta_file : (-o) string or None, default=None
+            If set with a file path, then also exports results of CD-HIT-2D
+            as a fasta file.
+        Returns
+        -------
+        header : List of header for representative sequences.
+        seq : List of representative sequences.
+        """
         cdhit_exec = self._get_cdhit_exec(['cd-hit', 'cdhit'])
 
         if seq_lst is None or header_lst is None:
