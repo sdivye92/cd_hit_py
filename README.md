@@ -14,4 +14,4 @@ Run following command to get this project
 git clone https://github.com/sdivye92/cd_hit_py.git
 ```
 
-Details are avialble in CD-HIT's user guide which is available [here](http://www.bioinformatics.org/cd-hit/cd-hit-user-guide.pdf). Its copy is also available locally [here](cd-hit-user-guide.pdf) but this can be outdated.
+Details are avialable in CD-HIT's user guide which is available [here](http://www.bioinformatics.org/cd-hit/cd-hit-user-guide.pdf). Its copy is also available locally [here](cd-hit-user-guide.pdf) but this can be outdated.
