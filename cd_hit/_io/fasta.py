@@ -1,4 +1,4 @@
-from ..error import FileParsingError, InvalidFileTypeError, \
+from .._error import FileParsingError, InvalidFileTypeError, \
         LengthMissmatchError
 from warnings import warn
 

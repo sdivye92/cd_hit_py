@@ -1,7 +1,7 @@
 import os
 from platform import system
-from cd_hit.error import *
-from cd_hit.io import read_fasta
+from .._error import *
+from .._io import read_fasta
 from .base import BASE
     
 class CD_HIT(BASE):
@@ -39,7 +39,7 @@ class CD_HIT(BASE):
         
 
     def from_list(self, seq_lst=None, header_lst=None, threshold=0.9, output_fasta_file=None):
-        cdhit_exec = self._get_cdhit_exec()
+        cdhit_exec = self._get_cdhit_exec(['cd-hit', 'cdhit'])
 
         if seq_lst is None or header_lst is None:
             raise MissingArgumentError("Both sequence list and header list must be provided")

@@ -67,7 +67,7 @@ class BASE:
             current_path = os.path.dirname(__file__)
             proj_path = '/'.join(current_path.split('/')[:-1])
             os_name = self.get_os_name()
-            bin_path = proj_path+'/bin/'+os_name+'/bin'
+            bin_path = proj_path+'/_bin/'+os_name+'/bin'
             return bin_path+"/"+exec_list[0]
 
     def _print_to_file(self, seq_lst, header_lst, inp):
