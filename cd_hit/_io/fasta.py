@@ -8,6 +8,17 @@ def __split_str(seq, sep='\n'):
     return splt[0], splt[1].replace(sep, "")
 
 def read_fasta(file_path):
+    """Read fasta file into pandas dataframe
+
+    Parameters
+    ----------
+    file_path : input fasta file
+    
+    Returns
+    -------
+    df : pandas dataframe of headers and sequences
+         from input fasta file.
+    """
     import os
     import pandas as pd
     if not os.path.exists(file_path):
@@ -23,6 +34,18 @@ def read_fasta(file_path):
         raise FileParsingError("Error occured in parsing file {0}".format(file_path))
 
 def write_fasta(file_path, seq_lst=None, header_lst=None):
+    """Write list of sequences and headers to fasta file
+
+    Parameters
+    ----------
+    file_path : path for output fasta file.
+    seq_lst : list of sequences.
+    header_lst : list of headers for the sequences.
+    
+    Returns
+    -------
+    None
+    """
     if not (isinstance(seq_lst, list) and isinstance(header_lst, list)):
         raise ValueError("Sequence and header must be of type list")
 
