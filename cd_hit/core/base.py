@@ -21,18 +21,18 @@ class BASE:
         self.long_seq_alignment_coverage_control= long_seq_alignment_coverage_control
         self.short_seq_alignment_coverage= short_seq_alignment_coverage
         self.short_seq_alignment_coverage_control= short_seq_alignment_coverage_control
-        self.store_in_RAM= 1 if store_in_RAM else 0
+        self.store_in_RAM= 0 if store_in_RAM else 1
         self.print_alignment_overlap= 1 if print_alignment_overlap else 0
         self.nthreads= nthreads
-        self.fast_mode= fast_mode
+        self.fast_mode= 0 if fast_mode else 1
 
-    def temp_file(self):
+    def _temp_file(self):
         import tempfile
         tempfile = tempfile.NamedTemporaryFile
         kwargs = {'delete': True, 'mode': 'r+'}
         return tempfile(**kwargs)
 
-    def check_exec_installation(self, cmds):
+    def _check_exec_installation(self, cmds):
         """Given a command returns its path, or None.
         Given a list of commands returns the first recoverable path, or None.
         """
@@ -59,8 +59,8 @@ class BASE:
         elif os_name == 'Darwin':
             return 'osx'
 
-    def get_cdhit_exec(self):
-        cdhit_exec = self.check_exec_installation(['cd-hit', 'cdhit'])
+    def _get_cdhit_exec(self, exec_list):
+        cdhit_exec = self._check_exec_installation(exec_list)
         if cdhit_exec:
             return cdhit_exec
         else:
@@ -68,5 +68,17 @@ class BASE:
             proj_path = '/'.join(current_path.split('/')[:-1])
             os_name = self.get_os_name()
             bin_path = proj_path+'/bin/'+os_name+'/bin'
-            return bin_path+"/cd-hit"
-    
+            return bin_path+"/"+exec_list[0]
+
+    def _print_to_file(self, seq_lst, header_lst, inp):
+        if not (isinstance(seq_lst, list) and isinstance(header_lst, list)):
+            raise ValueError("Sequence and header must be of type list")
+        
+        if len(seq_lst) != len(header_lst):
+            raise LengthMissmatchError("Sequence and header lists must have same length")
+        
+        for hdr, seq in zip(header_lst, seq_lst):
+            hdr_seq = ">{0}\n{1}".format(hdr, seq)
+            print(hdr_seq, file=inp)
+
+        inp.flush()

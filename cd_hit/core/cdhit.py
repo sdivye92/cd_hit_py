@@ -31,34 +31,21 @@ class CD_HIT(BASE):
         if returncode != 0:
             raise CdhitCommandError("Error while execution of cd-hit")
         
-    def __print_to_file(self, seq_lst, header_lst, inp):
-        if not (isinstance(seq_lst, list) and isinstance(header_lst, list)):
-            raise ValueError("Sequence and header must be of type list")
-        
-        if len(seq_lst) != len(header_lst):
-            raise LengthMissmatchError("Sequence and header lists must have same length")
-        
-        for hdr, seq in zip(header_lst, seq_lst):
-            hdr_seq = ">{0}\n{1}".format(hdr, seq)
-            print(hdr_seq, file=inp)
-
-        inp.flush()
-        
     def from_file(self, inp_file=None, out_file=None, threshold=0.9):
-        cdhit_exec = self.get_cdhit_exec()
+        cdhit_exec = self._get_cdhit_exec(['cd-hit', 'cdhit'])
         #if cdhit_exec:
         print(cdhit_exec)
         self.__call_cdhit(cdhit_exec, inp_file, out_file, threshold)
         
 
     def from_list(self, seq_lst=None, header_lst=None, threshold=0.9, output_fasta_file=None):
-        cdhit_exec = self.get_cdhit_exec()
+        cdhit_exec = self._get_cdhit_exec()
 
         if seq_lst is None or header_lst is None:
             raise MissingArgumentError("Both sequence list and header list must be provided")
         
-        with self.temp_file() as inp, self.temp_file() as out:
-            self.__print_to_file(seq_lst, header_lst, inp)
+        with self._temp_file() as inp, self._temp_file() as out:
+            self._print_to_file(seq_lst, header_lst, inp)
 
             self.__call_cdhit(cdhit_exec, inp.name, out.name, threshold)
 
@@ -72,7 +59,4 @@ class CD_HIT(BASE):
 
                 copyfile(out.name, output_fasta_file)
                     
-                
-            
-
         return df["Header"].tolist(), df["Sequence"].tolist()
