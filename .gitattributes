@@ -1,4 +1,5 @@
 *.pl linguist-detectable=false
 *.ipynb linguist-detectable=false
 *.fasta linguist-detectable=false
+*.sh linguist-detectable=false
 *.py linguist-detectable=true
