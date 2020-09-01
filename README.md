@@ -6,7 +6,7 @@ Python interface to <a href="http://weizhong-lab.ucsd.edu/cdhit-web-server/cgi-b
 
 See [example](https://github.com/sdivye92/cd_hit_py/tree/master/example) for basic commands.
 
-The cd-hit executable files are taken from [anaconda](https://anaconda.org/bioconda/cd-hit/files). Therefore, this project will work for linux and OSX distributions only.
+The cd-hit executable files are taken from [anaconda](https://anaconda.org/bioconda/cd-hit/files?version=4.8.1&type=). Therefore, this project will work for linux and OSX distributions only.
 
 Run following command to get this project
 
@@ -14,4 +14,4 @@ Run following command to get this project
 git clone https://github.com/sdivye92/cd_hit_py.git
 ```
 
-Details are avialable in CD-HIT's user guide which is available [here](http://www.bioinformatics.org/cd-hit/cd-hit-user-guide.pdf). Its copy is also available locally [here](cd-hit-user-guide.pdf) but this can be outdated.
+Details are avialable in CD-HIT's user guide which is available [here](http://www.bioinformatics.org/cd-hit/cd-hit-user-guide.pdf). Its copy is also available locally [here](documentation/cd-hit-user-guide.pdf) but this can be outdated.
