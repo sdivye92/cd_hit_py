@@ -105,13 +105,24 @@ class CD_HIT(BASE):
                  long_seq_alignment_coverage_control= 99999999, short_seq_alignment_coverage= 0.0,
                  short_seq_alignment_coverage_control= 99999999, store_in_RAM= True,
                  print_alignment_overlap= False, nthreads= 1, fast_mode= True):
-
-        super().__init__(global_seq_identity= True, band_width= 20, max_memory= 400, word_length= 5,
-                 throw_away_sequences_length= 10, tol= 2, desc_length= 20, length_difference_cutoff= 0.0,
-                 amino_acid_length_difference_cutoff= 999999, long_seq_alignment_coverage= 0.0,
-                 long_seq_alignment_coverage_control= 99999999, short_seq_alignment_coverage= 0.0,
-                 short_seq_alignment_coverage_control= 99999999, store_in_RAM= True,
-                 print_alignment_overlap= False, nthreads= 1, fast_mode= True)
+        args = locals()
+        del args['self'], args['__class__']
+        super().__init__(global_seq_identity=global_seq_identity,
+                         band_width=band_width, max_memory=max_memory,
+                         word_length=word_length,
+                         throw_away_sequences_length=throw_away_sequences_length,
+                         tol=tol,
+                         desc_length=desc_length,
+                         length_difference_cutoff=length_difference_cutoff,
+                         amino_acid_length_difference_cutoff=amino_acid_length_difference_cutoff,
+                         long_seq_alignment_coverage=long_seq_alignment_coverage,
+                         long_seq_alignment_coverage_control=long_seq_alignment_coverage_control,
+                         short_seq_alignment_coverage=short_seq_alignment_coverage,
+                         short_seq_alignment_coverage_control=short_seq_alignment_coverage_control,
+                         store_in_RAM=store_in_RAM,
+                         print_alignment_overlap=print_alignment_overlap,
+                         nthreads=nthreads,
+                         fast_mode=fast_mode)
 
     def __get_command(self, cdhit_exe, fin, fout, threshold):
         return "{0} -i {1} -o {2} -c {3} -G {4} -b {5} -M {6} -n {7} -l {8} -t {9} -d {10} -s {11} -S {12} -aL {13} -AL {14} -aS {15} -AS {16} -B {17} -p {18} -T {19} -g {20}".format(cdhit_exe, fin, fout,
@@ -149,7 +160,7 @@ class CD_HIT(BASE):
         self.__call_cdhit(cdhit_exec, inp_file, out_file, threshold)
         
 
-    def from_list(self, seq_lst=None, header_lst=None, threshold=0.9, output_fasta_file=None):
+    def from_list(self, seq_lst=None, header_lst=None, threshold=0.9, clstr_file=None, output_fasta_file=None):
         """Runs CD-HIT using sequence and header lists
         with user defined similarity threshold.
         Output is in form of python list object
@@ -192,5 +203,19 @@ class CD_HIT(BASE):
                     from distutils.file_util import copy_file as copyfile
 
                 copyfile(out.name, output_fasta_file)
-                    
+            
+            if self.print_alignment_overlap:
+                clstr_file_folder = os.path.dirname(os.path.abspath(clstr_file)) if clstr_file is not None else "None"
+                if clstr_file is not None and os.path.exists(clstr_file_folder):
+                    try:
+                        from shutil import copyfile
+                    except ImportError:
+                        from distutils.file_util import copy_file as copyfile
+                    tmp_clstr_file = out.name+".clstr"
+                    copyfile(tmp_clstr_file, clstr_file)
+                else:
+                    import warnings
+                    warnings.warn(" ".join([f"Folder containing clstr file does not exist: {clstr_file_folder}.",
+                                    "Ignoring 'print_alignment_overlap' argument."]))
+
         return df["Header"].tolist(), df["Sequence"].tolist()
