@@ -127,6 +127,8 @@ class CD_HIT_2D(BASE):
                          length_difference_cutoff=length_difference_cutoff,
                          amino_acid_length_difference_cutoff=amino_acid_length_difference_cutoff,
                          long_seq_alignment_coverage=long_seq_alignment_coverage,
+                         long_seq_alignment_coverage_control=long_seq_alignment_coverage_control,
+                         short_seq_alignment_coverage=short_seq_alignment_coverage,
                          short_seq_alignment_coverage_control=short_seq_alignment_coverage_control,
                          store_in_RAM=store_in_RAM,
                          print_alignment_overlap=print_alignment_overlap,
