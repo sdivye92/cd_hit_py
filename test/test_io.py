@@ -1,8 +1,10 @@
 import pytest
+import numpy as np
 import pandas as pd
 
 from cd_hit import read_fasta
 from cd_hit import write_fasta
+from cd_hit import parse_clstr_file
 from cd_hit._error import LengthMissmatchError
 
 def test_read_fasta():
@@ -36,3 +38,9 @@ def test_line_mismatch_error(tmpdir):
 
     out_file = tmpdir.join('output.fasta')
     write_fasta(out_file.strpath, seq, header)
+
+def test_clstr_file_parser():
+    output_df = parse_clstr_file("test/test_clstr_file.clstr")
+    expected_df = pd.read_csv("test/test_clstr_output_file.csv")
+
+    assert output_df.equals(expected_df)

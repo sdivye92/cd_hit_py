@@ -1,0 +1,15 @@
+Cluster ID,Seq length,Seq header,Seq match start idx,Seq match end idx,Ref match start idx,Ref match end idx,Similarity
+Cluster 0,32,seq_287,1.0,32.0,1.0,32.0,100.00%
+Cluster 0,30,seq_289,1.0,30.0,32.0,61.0,96.67%
+Cluster 0,22,seq_290,1.0,22.0,4.0,25.0,95.45%
+Cluster 0,61,seq_705,,,,,
+Cluster 1,27,seq_474,1.0,27.0,32.0,58.0,100.00%
+Cluster 1,23,seq_480,1.0,23.0,24.0,46.0,100.00%
+Cluster 1,60,seq_704,,,,,
+Cluster 2,56,seq_703,,,,,
+Cluster 3,49,seq_702,,,,,
+Cluster 7,35,seq_77,1.0,35.0,1.0,35.0,97.14%
+Cluster 7,35,seq_89,2.0,35.0,1.0,34.0,94.29%
+Cluster 7,35,seq_90,3.0,35.0,1.0,33.0,91.43%
+Cluster 7,45,seq_699,,,,,
+Cluster 8,38,seq_216,,,,,
