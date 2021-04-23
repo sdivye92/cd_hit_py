@@ -18,3 +18,7 @@ class FileParsingError(Exception):
 class MissingArgumentError(Exception):
     def __init__(self, msg):
         self.msg = msg
+
+class InvalidFilePath(Exception):
+    def __init__(self, msg):
+        self.msg = msg
